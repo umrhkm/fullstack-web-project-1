@@ -1,0 +1,30 @@
+{
+  "name": "lasti-nodejs-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umrhkm/lasti-nodejs-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umrhkm/lasti-nodejs-api/issues"
+  },
+  "homepage": "https://github.com/umrhkm/lasti-nodejs-api#readme",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.12.0",
+    "mongoose": "^6.7.2",
+    "nodemon": "^2.0.20",
+    "validator": "^13.7.0"
+  }
+}
