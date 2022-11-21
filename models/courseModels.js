@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 
-const myCourseSchema = new mongoose.Schema({
+const courseSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -17,7 +17,6 @@ const myCourseSchema = new mongoose.Schema({
     cost:{
         type: Number,
         required: true,
-        max: 9999999
     },
     approval_status: {
         type: Boolean,
@@ -30,22 +29,16 @@ const myCourseSchema = new mongoose.Schema({
     }
 })
 
-const enrolledCourse = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    }
-})
 
-
-const courseCostValidation = (request) => {
+const courseValidation = (request) => {
     const schema = Joi.object({
-        cost: Joi.number().max(9999999).required()
+        name: Joi.string().required(),
+        category: Joi.string().required(),
+        description: Joi.string().required(),
+        cost: Joi.number().max(9999999).required(),
     })
-    return schema.validate(request.cost)
+    return schema.validate(request)
 }
 
-
-module.exports.enrolledCourse = enrolledCourse
-module.exports.myCourseSchema = myCourseSchema
-module.exports.courseCostValidation = courseCostValidation
+module.exports = mongoose.model('Course', courseSchema)
+module.exports.courseValidation = courseValidation

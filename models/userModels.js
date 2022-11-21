@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
-const { myCourseSchema, enrolledCourse } = require('./courseModels')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -20,12 +19,12 @@ const userSchema = new mongoose.Schema({
         min: 8
     },
     myCourse: {
-        type: [myCourseSchema],
+        type: [],
         required: false,
         default: []
     },
     enrolledCourse: {
-        type: [enrolledCourse],
+        type: [],
         default: [],
         required: false
     },

@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const {  } = require('../controllers/courseControllers')
+const { create_course } = require('../controllers/courseControllers')
 const { verifyToken } = require('../auth/verifyToken')
 
 router.post('/create', verifyToken, async (req, res) => {
-    res.json({Pesan : "Ngetes"})
+    return create_course(req, res)
 })
 
 module.exports = router;
