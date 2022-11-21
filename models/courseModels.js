@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 
+const questionSchema = new mongoose.Schema({
+    pertanyaan: {
+        type: String
+    },
+    pilihan: {
+        type: []
+    }
+})
+
+const quizSchema = new mongoose.Schema({
+    name: String,
+    quesitons: [questionSchema]
+})
+
 const courseSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -17,6 +31,14 @@ const courseSchema = new mongoose.Schema({
     cost:{
         type: Number,
         required: true,
+    },
+    contentVideoUrls:{
+        type: [],
+        required: false
+    },
+    quizzes:{
+        type: [quizSchema],
+        required: false
     },
     approval_status: {
         type: Boolean,

@@ -10,6 +10,9 @@ async function create_course(req, res) {
     const { error } = courseValidation(req.body)
     if (error) return res.status(400).send(error)
 
+    const course = await Course.findOne({ name: req.body.name })
+    if (course) return res.status(409).send({ "Error": "Nama kursus sudah digunakan" })
+
     //Menyimpan Data ke Database
     const new_course = new Course({
         name: req.body.name,
@@ -20,31 +23,40 @@ async function create_course(req, res) {
 
     try {
         const savedCourse = await new_course.save();
-        const updated_user = await User.updateOne({ _id: req.user._id }, {$set: {"myCourse": new_course._id}})
-        res.send(updated_user);
+        const updated_user = await User.updateOne({ _id: req.user._id }, {$addToSet: {"myCourse": new_course._id}})
+        res.send({"Pesan" : "Kursus berhasil ditambahkan"});
     } catch (err) {
         res.status(400).send(err);
     }
 }
 
-async function sign_in(req, res) {
+async function approve_course(req, res, id) {
+    try {
+        const approving_course = await Course.updateOne({ _id: id }, {$set: {"approval_status": true}})
+        const approved_course = await Course.findOne({_id:id})
+        res.send(approved_course)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
 
-    //Validasi Request
-    const { error } = loginValidation(req.body)
-    if (error) return res.status(400).send({ "Error": error.details[0].message })
+async function get_all_course(req,res){
+    try {
+        res.send(await Course.find({}))
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
 
-    //Menyocokkan Email Pada Database
-    const user = await User.findOne({ email: req.body.email })
-    if (!user) return res.status(409).send({ "Error": "Email belum terdaftar" })
-
-    //Validasi Password
-    const validasiPw = await bcrypt.compare(req.body.password, user.password)
-    if (!validasiPw) return res.status(401).send({ "Error": "Password salah" })
-
-    //Membuat Token
-    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET_KEY)
-    res.header('autentikasi-token', token).send({ "Token": token })
-
+async function get_a_course(req,res,name){
+    try {
+        res.send(await Course.find({name: { $regex: '.*' + name + '.*', $options:'i' }}))
+    } catch (err) {
+        res.status(400).send(err)
+    }
 }
 
 module.exports.create_course = create_course
+module.exports.approve_course = approve_course
+module.exports.get_all_course = get_all_course
+module.exports.get_a_course = get_a_course
