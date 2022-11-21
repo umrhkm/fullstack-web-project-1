@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const { myCourseSchema, enrolledCourse } = require('./courseModels')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -18,11 +19,23 @@ const userSchema = new mongoose.Schema({
         required: true,
         min: 8
     },
+    myCourse: {
+        type: [myCourseSchema],
+        required: false,
+        default: []
+    },
+    enrolledCourse: {
+        type: [enrolledCourse],
+        default: [],
+        required: false
+    },
     date: {
         type: Date,
         default: Date.now
     }
 })
+
+
 
 const signUpValidation = (request) => {
     const schema = Joi.object({
