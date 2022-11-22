@@ -46,7 +46,7 @@ async function sign_in(req, res) {
     if (!validasiPw) return res.status(401).send({ "Error": "Password salah" })
 
     //Membuat Token
-    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET_KEY)
+    const token = jwt.sign({ email: user.email }, process.env.TOKEN_SECRET_KEY)
     res.header('autentikasi-token', token).send({ "Token": token })
 
 }

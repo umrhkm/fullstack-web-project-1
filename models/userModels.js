@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const conn = require('../database/db')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -53,6 +54,6 @@ const loginValidation = (request) => {
     return schema.validate(request)
 }
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = conn.dbUser.model('User', userSchema)
 module.exports.signUpValidation = signUpValidation
 module.exports.loginValidation = loginValidation

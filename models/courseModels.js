@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const conn = require('../database/db')
 
 const questionSchema = new mongoose.Schema({
     pertanyaan: {
@@ -62,5 +63,5 @@ const courseValidation = (request) => {
     return schema.validate(request)
 }
 
-module.exports = mongoose.model('Course', courseSchema)
+module.exports = conn.dbCourse.model('Course', courseSchema)
 module.exports.courseValidation = courseValidation
