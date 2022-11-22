@@ -56,6 +56,10 @@ async function get_a_course(req,res,name){
     }
 }
 
+async function delete_course(req,res,id){
+    const course = await Course.findOne({ id: req.body.id })
+}
+
 module.exports.create_course = create_course
 module.exports.approve_course = approve_course
 module.exports.get_all_course = get_all_course

@@ -18,4 +18,8 @@ router.put('/approve/:id', verifyToken, async (req, res) => {
     return approve_course(req, res, req.params.id)
 })
 
+router.delete('/delete/:id', verifyToken, async(req, res) => {
+    return delete_course(req, res, req.params.id)
+})
+
 module.exports = router;

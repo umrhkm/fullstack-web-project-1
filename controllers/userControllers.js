@@ -51,5 +51,29 @@ async function sign_in(req, res) {
 
 }
 
+async function get_all_user(req, res) {
+
+    try {
+        const listUser = await User.find({})
+        res.send(listUser)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+
+}
+
+async function get_a_user(req, res, email) {
+
+    try {
+        const user = await User.findOne({email:email})
+        res.send(user)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+
+}
+
 module.exports.sign_up = sign_up
 module.exports.sign_in = sign_in
+module.exports.get_all_user = get_all_user
+module.exports.get_a_user = get_a_user
