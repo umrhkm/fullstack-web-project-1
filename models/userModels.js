@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
-const conn = require('../database/db')
+const conn = require('../database/db');
+const { ObjectId } = require('mongodb');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -20,12 +21,12 @@ const userSchema = new mongoose.Schema({
         min: 8
     },
     myCourse: {
-        type: [],
+        type: [ObjectId],
         required: false,
         default: []
     },
     enrolledCourse: {
-        type: [],
+        type: [ObjectId],
         default: [],
         required: false
     },

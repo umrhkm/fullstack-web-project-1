@@ -11,4 +11,8 @@ mongoose.dbCourse = mongoose.createConnection(
     process.env.COURSE_DATABASE_URL,  
     { useNewUrlParser: true, useUnifiedTopology: true });
 
+mongoose.dbFinalProject = mongoose.createConnection(
+    process.env.FINALPROJECT_DATABASE_URL,  
+    { useNewUrlParser: true, useUnifiedTopology: true });
+
 module.exports = mongoose

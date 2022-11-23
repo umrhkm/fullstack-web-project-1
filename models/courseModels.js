@@ -1,20 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
-const conn = require('../database/db')
-
-const questionSchema = new mongoose.Schema({
-    pertanyaan: {
-        type: String
-    },
-    pilihan: {
-        type: []
-    }
-})
-
-const quizSchema = new mongoose.Schema({
-    name: String,
-    quesitons: [questionSchema]
-})
+const conn = require('../database/db');
+const { ObjectId } = require('mongodb');
 
 const courseSchema = new mongoose.Schema({
     name: {
@@ -37,14 +24,22 @@ const courseSchema = new mongoose.Schema({
         type: [],
         required: false
     },
-    quizzes:{
-        type: [quizSchema],
+    quizID:{
+        type: [],
+        required: false
+    },
+    finalProjectID:{
+        type: ObjectId,
         required: false
     },
     approval_status: {
         type: Boolean,
         required: true,
         default: false
+    },
+    owner_id:{
+        type:ObjectId,
+        required:true
     },
     date: {
         type: Date,
