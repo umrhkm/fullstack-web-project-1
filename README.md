@@ -51,8 +51,8 @@ Sama seperti saat sign up, perbedaannya disini adalah payload yang harus diisi h
 ![image](https://user-images.githubusercontent.com/93817324/203582180-2ee12285-6224-487b-8b04-e2d39b84ce5a.png)
 
 8. Simpan token yang didapat setelah sign in pada Headers dengan key "autentikasi-token" dan value <token yang didapat>
-  
-*![image](https://user-images.githubusercontent.com/93817324/203582675-cee5cbe3-a797-459a-8645-fa893fb56476.png)
+   
+![image](https://user-images.githubusercontent.com/93817324/203582675-cee5cbe3-a797-459a-8645-fa893fb56476.png)
 
 9. Selesai! Silahkan explore api dengan daftar endpoint di bawah
 
