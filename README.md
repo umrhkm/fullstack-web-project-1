@@ -50,7 +50,7 @@ localhost:3000/api/user/signin
 Sama seperti saat sign up, perbedaannya disini adalah payload yang harus diisi hanyalah email dan password
 ![image](https://user-images.githubusercontent.com/93817324/203582180-2ee12285-6224-487b-8b04-e2d39b84ce5a.png)
 
-8. Simpan token yang didapat setelah sign in pada Headers dengan key "autentikasi-token" dan value <token yang didapat>
+8. Simpan token yang didapat setelah sign in pada Headers dengan key "autentikasi-token" dan value <token yang didapat> <br />
 ![image](https://user-images.githubusercontent.com/93817324/203582675-cee5cbe3-a797-459a-8645-fa893fb56476.png)
 
 9. Selesai! Silahkan explore api dengan daftar endpoint di bawah
@@ -58,10 +58,10 @@ Sama seperti saat sign up, perbedaannya disini adalah payload yang harus diisi h
 
 ## Daftar Endpoint, HTTP Method, dan Kegunaannya
 ### User
-- Sign Up / Register
-Digunakan untuk mendaftar pada layanan
-Endpoint: /api/user/signup
-HTTP Method: POST
+- Sign Up / Register <br />
+Digunakan untuk mendaftar pada layanan <br />
+Endpoint: /api/user/signup <br />
+HTTP Method: POST <br />
 Payload (JSON): {"name" : "<nama>", "email" : "<email>", "password" : "<password>"}
 - Sign In / Login
 Digunakan untuk masuk ke layanan
