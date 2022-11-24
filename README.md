@@ -63,12 +63,12 @@ Sama seperti saat sign up, perbedaannya disini adalah payload yang harus diisi h
 Digunakan untuk mendaftar pada layanan <br />
 Endpoint: /api/user/signup <br />
 HTTP Method: POST <br />
-Payload (JSON): {"name" : "<nama>", "email" : "<email>", "password" : "<password>"}
+Payload (JSON): {"name" : "<nama>", "email" : "(email)", "password" : "(password)"}
 - Sign In / Login <br />
 Digunakan untuk masuk ke layanan <br />
 Endpoint: /api/user/signin <br />
 HTTP Method: POST <br />
-Payload (JSON): {"email" : "<email>", "password" : "<password>"}
+Payload (JSON): {"email" : "(email)", "password" : "(password)"}
 - Get All User <br />
 Digunakan untuk meliuhat daftar seluruh user pada layanan <br />
 Endpoint: /api/user/ <br />
@@ -76,7 +76,7 @@ HTTP Method: GET <br />
 Payload (JSON): -
 - Get User By Email <br />
 Digunakan untuk meliuhat daftar user berdasarkan email <br />
-Endpoint: /api/user/<email dari user yang ingin dicari> <br />
+Endpoint: /api/user/(email dari user yang ingin dicari) <br />
 HTTP Method: GET <br />
 Payload (JSON): -
 
@@ -85,7 +85,7 @@ Payload (JSON): -
 Digunakan untuk membuat course dan secara otomatis course ini akan dimiliki oleh pembuatnya (user yang sedang login) <br />
 Endpoint: /api/course/create <br />
 HTTP Method: POST <br />
-Payload (JSON): {"name" : "<nama>", "category" : "<category>", "description" : "<description>", "cost" : "<cost>"}
+Payload (JSON): {"name" : "(nama)", "category" : "(category)", "description" : "(description)", "cost" : "(cost)"}
 - Get All Course <br />
 Digunakan untuk mendapatkan semua course yang terdaftar pada layanan <br />
 Endpoint: api/course <br />
@@ -93,17 +93,17 @@ HTTP Method: GET <br />
 Payload (JSON): -
 - Get Course By Name <br />
 Digunakan untuk mencari course berdasarkan nama <br />
-Endpoint: api/course/<nama course yang dicari> <br />
+Endpoint: api/course/(nama course yang dicari) <br />
 HTTP Method: GET <br />
 Payload (JSON): -
 - Approve Course <br />
 Digunakan oleh staff/admin untuk approve course yang baru dibuat <br />
-Endpoint: api/course/approve/<id dari course yang ingin diapprove> <br />
+Endpoint: api/course/approve/(id dari course yang ingin diapprove) <br />
 HTTP Method: PUT <br />
 Payload (JSON): -
 - Delete Course <br />
 Digunakan untuk menghapus course jika yang menghapus adalah pemilik course tersebut <br />
-Endpoint: api/course/delete/<id course yang ingin didelete> <br />
+Endpoint: api/course/delete/(id course yang ingin didelete) <br />
 HTTP Method: DELETE <br />
 Payload (JSON): -
 
@@ -112,25 +112,25 @@ Payload (JSON): -
 Digunakan untuk membuat final project untuk suatu course <br />
 Endpoint: api/final-project/create <br />
 HTTP Method: POST <br />
-Payload (JSON): {"name" : "name", "courseID" : "<ID dari course ingin dibuat final projectnya>", "questionCase" : "<Studi kasus/pertanyaan dari Final Project>"}
+Payload (JSON): {"name" : "(name)", "courseID" : "(ID dari course ingin dibuat final projectnya)", "questionCase" : "(Studi kasus/pertanyaan dari Final Project)"}
 - Grade Final Project <br />
 Digunakan untuk menilai final project jika user memang pembuat final project (sekaligus pemilik course) <br />
-Endpoint: api/final-project/grade/<id final project>/<id dari user yang ingin dinilai> <br />
+Endpoint: api/final-project/grade/(id final project)/(id dari user yang ingin dinilai) <br />
 HTTP Method: PUT <br />
-Payload (JSON): {"score" : <score>}
+Payload (JSON): {"score" : (score)}
 - Add Final Project Answer <br />
 Digunakan untuk menambahkan jawaban pada final project <br />
-Endpoint: api/final-project/answer/add/<id dari final project yang ingin dijawab> <br />
+Endpoint: api/final-project/answer/add/(id dari final project yang ingin dijawab) <br />
 HTTP Method: PUT <br />
-Payload (JSON): {"answer" : "<answer>"}
+Payload (JSON): {"answer" : "(answer)"}
 - Get Final Project Answers <br />
 Digunakan untuk mendapatkan semua jawaban pada suatu final project <br />
-Endpoint : api/final-project/answer/<id dari final project yang ingin dicari semua jawabannya> <br />
+Endpoint : api/final-project/answer/(id dari final project yang ingin dicari semua jawabannya) <br />
 HTTP Method: GET <br />
 Payload (JSON) : -
 - Get Final Project Answer Of A User <br />
 Digunakan untuk mendapatkan jawaban seorang user pada suatu final project <br />
-Endpoint : api/final-project/answer/<id dari final project>/<id dari user yang ingin dicari jawabannya> <br />
+Endpoint : api/final-project/answer/(id dari final project)/(id dari user yang ingin dicari jawabannya) <br />
 HTTP Method: GET <br />
 Payload (JSON) : -
 - Get All Final Project <br />
@@ -139,13 +139,13 @@ Endpoint: api/final-project/ <br />
 Payload (JSON): -
 - Get A Final Project <br />
 Digunakan untuk mendapatkan salah satu final project berdasarkan idnya <br />
-Endpoint: api/final-project/<id final project> <br />
+Endpoint: api/final-project/(id final project) <br />
 Payload (JSON): -
 - Get Final Project By Course ID <br />
 Digunakan untuk mendapatkan final project dari suatu course (menggunakan id course) <br />
-Endpoint: api/final-project/search-by-course/<id course> <br />
+Endpoint: api/final-project/search-by-course/(id course) <br />
 Payload (JSON): -
 - Get User's Final Project Score <br />
 Digunakan untuk mendapatkan nilai dari seorang user (berdasarkan ID-nya) yang telah mengerjakan final course tertentu dan telah dinilai <br />
-Endpoint: api/final-project/score/<id final project>/<id user> <br />
+Endpoint: api/final-project/score/(id final project)/(id user) <br />
 Payload (JSON): -
