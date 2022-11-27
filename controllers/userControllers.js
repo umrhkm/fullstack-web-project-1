@@ -7,11 +7,11 @@ async function sign_up(req, res) {
 
     //Validasi Request
     const { error } = signUpValidation(req.body)
-    if (error) return res.status(400).send({ "Error": error.details[0].message })
+    if (error) return res.status(400).send({ "Pesan": error.details[0].message })
 
     //Periksa Ketersediaan Email
     const user = await User.findOne({ email: req.body.email })
-    if (user) return res.status(409).send({ "Error": "Email sudah digunakan" })
+    if (user) return res.status(409).send({ "Pesan": "Email sudah digunakan" })
 
     //Hash Password
     const salt = await bcrypt.genSalt(10);
@@ -35,15 +35,15 @@ async function sign_in(req, res) {
 
     //Validasi Request
     const { error } = loginValidation(req.body)
-    if (error) return res.status(400).send({ "Error": error.details[0].message })
+    if (error) return res.status(400).send({ "Pesan": error.details[0].message })
 
     //Menyocokkan Email Pada Database
     const user = await User.findOne({ email: req.body.email })
-    if (!user) return res.status(409).send({ "Error": "Email belum terdaftar" })
+    if (!user) return res.status(409).send({ "Pesan": "Email belum terdaftar" })
 
     //Validasi Password
     const validasiPw = await bcrypt.compare(req.body.password, user.password)
-    if (!validasiPw) return res.status(401).send({ "Error": "Password salah" })
+    if (!validasiPw) return res.status(401).send({ "Pesan": "Password salah" })
 
     //Membuat Token
     const token = jwt.sign({ email: user.email }, process.env.TOKEN_SECRET_KEY)

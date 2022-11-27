@@ -26,7 +26,8 @@ const userSchema = new mongoose.Schema({
         default: []
     },
     enrolledCourse: {
-        type: [ObjectId],
+        type: [{
+            id_course: ObjectId}],
         default: [],
         required: false
     },

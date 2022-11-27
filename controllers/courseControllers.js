@@ -1,6 +1,8 @@
 const User = require('../models/userModels')
 const Course = require('../models/courseModels')
+const FinalProject = require('../models/finalProjectModels')
 const { courseValidation } = require('../models/courseModels')
+const { delete_final_project } = require('./finalProjectControllers')
 
 async function create_course(req, res) {
 
@@ -9,7 +11,7 @@ async function create_course(req, res) {
     if (error) return res.status(400).send(error)
 
     const course = await Course.findOne({ name: req.body.name })
-    if (course) return res.status(409).send({ "Error": "Nama kursus sudah digunakan" })
+    if (course) return res.status(409).send({ "Pesan": "Nama kursus sudah digunakan" })
 
     const owner = await User.findOne({ email: req.user.email })
 
@@ -35,6 +37,9 @@ async function approve_course(req, res, id) {
     const course = await Course.findOne({_id: id})
     if (!course) return res.status(404).send({"Pesan" : "Course dengan ID tersebut tidak ditemukan"})
 
+    const check_if_admin = req.user.email === "admin@gmail.com"
+    if (!check_if_admin) return res.status(401).send({"Pesan" : "Anda tidak memiliki akses untuk melakukan hal ini"})
+
     try {
         const approving_course = await Course.updateOne({ _id: id }, { $set: { "approval_status": true } })
         const approved_course = await Course.findOne({ _id: id })
@@ -57,7 +62,7 @@ async function get_a_course(req, res, name) {
     if (!course) return res.status(404).send({"Pesan" : "Course dengan nama tersebut tidak ditemukan"})
 
     try {
-        res.send()
+        res.send(course)
     } catch (err) {
         res.status(400).send(err)
     }
@@ -65,13 +70,19 @@ async function get_a_course(req, res, name) {
 
 async function delete_course(req, res, id){
     const course = await Course.findOne({ _id: id })
+    if (!course) return res.status(404).send({ "Pesan": "Course dengan ID tersebut tidak ditemukan" })
+
     const owner = await User.findOne({_id: course.owner_id})
     const isCourseOwner = req.user.email === owner.email
-    if (!isCourseOwner) return res.status(401).send({ "Error": "Anda tidak memiliki akses terhadap course ini" })
-
+    if (!isCourseOwner) return res.status(401).send({ "Pesan": "Anda tidak memiliki akses terhadap course ini" })
+    
     try {
+        if (course.finalProjectID){
+            await FinalProject.deleteOne({ _id: course.finalProjectID })
+        }       
+        const update_owner = await User.updateOne({ _id: owner._id}, { $pull: { myCourse: id } })
         const deleted_course = await Course.deleteOne({ _id: id })
-        res.send({ "Pesan": "Kursus berhasil dihapus" });
+        res.send({ "Pesan": "Kursus berhasil dihapus" })
     } catch (err) {
         res.status(400).send(err)
     }
