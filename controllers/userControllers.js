@@ -63,9 +63,10 @@ async function get_all_user(req, res) {
 }
 
 async function get_a_user(req, res, email) {
+    const user = await User.findOne({email:email})
+    if (!user) return res.status(404).send({"Pesan" : "User dengan email tersebut tidak ditemukan"})
 
     try {
-        const user = await User.findOne({email:email})
         res.send(user)
     } catch (err) {
         res.status(400).send(err)

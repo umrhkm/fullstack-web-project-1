@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { create_course, approve_course, get_all_course, get_a_course } = require('../controllers/courseControllers')
+const { create_course, approve_course, get_all_course, get_a_course, delete_course } = require('../controllers/courseControllers')
 const { verifyToken } = require('../auth/verifyToken')
 
 router.post('/create', verifyToken, async (req, res) => {

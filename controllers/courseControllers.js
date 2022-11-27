@@ -32,6 +32,9 @@ async function create_course(req, res) {
 }
 
 async function approve_course(req, res, id) {
+    const course = await Course.findOne({_id: id})
+    if (!course) return res.status(404).send({"Pesan" : "Course dengan ID tersebut tidak ditemukan"})
+
     try {
         const approving_course = await Course.updateOne({ _id: id }, { $set: { "approval_status": true } })
         const approved_course = await Course.findOne({ _id: id })
@@ -50,8 +53,25 @@ async function get_all_course(req, res) {
 }
 
 async function get_a_course(req, res, name) {
+    const course = await Course.find({ name: { $regex: '.*' + name + '.*', $options: 'i' } })
+    if (!course) return res.status(404).send({"Pesan" : "Course dengan nama tersebut tidak ditemukan"})
+
     try {
-        res.send(await Course.find({ name: { $regex: '.*' + name + '.*', $options: 'i' } }))
+        res.send()
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
+
+async function delete_course(req, res, id){
+    const course = await Course.findOne({ _id: id })
+    const owner = await User.findOne({_id: course.owner_id})
+    const isCourseOwner = req.user.email === owner.email
+    if (!isCourseOwner) return res.status(401).send({ "Error": "Anda tidak memiliki akses terhadap course ini" })
+
+    try {
+        const deleted_course = await Course.deleteOne({ _id: id })
+        res.send({ "Pesan": "Kursus berhasil dihapus" });
     } catch (err) {
         res.status(400).send(err)
     }
@@ -61,3 +81,4 @@ module.exports.create_course = create_course
 module.exports.approve_course = approve_course
 module.exports.get_all_course = get_all_course
 module.exports.get_a_course = get_a_course
+module.exports.delete_course = delete_course

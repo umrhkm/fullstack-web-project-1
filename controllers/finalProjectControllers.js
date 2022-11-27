@@ -1,8 +1,12 @@
 const User = require('../models/userModels')
 const FinalProject = require('../models/finalProjectModels')
 const Course = require('../models/courseModels')
+const { expression } = require('@hapi/joi')
 
 async function create_final_project(req, res) {
+
+    const course = await Course.findOne({ _id: req.body.courseID })
+    if (!course) return res.status(404).send({"Pesan" : "Course dengan ID tersebut tidak ditemukan"})
 
     //Menyimpan Data ke Database
     const new_final_project = new FinalProject({
@@ -22,14 +26,17 @@ async function create_final_project(req, res) {
 
 async function grade_final_project(req, res, id_finalProject, id_user) {
     const final_project = await FinalProject.findOne({ _id: id_finalProject })
+    if (!final_project) return res.status(404).send({"Pesan" : "Final project dengan ID tersebut tidak ditemukan"})
 
     const course = await Course.findOne({ _id: final_project.courseID })
 
     const owner = await User.findOne({ _id: course.owner_id })
 
     const validasi_owner = req.user.email === owner.email
-
     if (!validasi_owner) return res.status(401).send({ "Error": "Anda tidak memiliki akses untuk menilai final project ini" })
+
+    const cek_penjawab = await FinalProject.findOne({ _id: id_finalProject, "answer.id_user": id_user })
+    if (!cek_penjawab) return res.status(404).send({"Pesan" : "Pengguna dengan ID tersebut belum menjawab final project ini"})
 
     try {
         const grading_final_project_answer = await FinalProject.updateOne({ _id: id_finalProject, "answer.id_user": id_user }, { $set: { "answer.$.score": req.body.score } })
@@ -42,6 +49,7 @@ async function grade_final_project(req, res, id_finalProject, id_user) {
 
 async function add_answer(req, res, id_finalProject) {
     const final_project = await FinalProject.findOne({ _id: id_finalProject })
+    if (!final_project) return res.status(404).send({"Pesan" : "Final project dengan ID tersebut tidak ditemukan"})
 
     const user = await User.findOne({ email: req.user.email })
 
@@ -64,14 +72,20 @@ async function get_all_final_project(req, res) {
 }
 
 async function get_a_final_project(req, res, id) {
+    const final_project = await FinalProject.findOne({ _id: id })
+    if (!final_project) return res.status(404).send({"Pesan" : "Final project dengan ID tersebut tidak ditemukan"})
+
     try {
-        res.send(await FinalProject.find({ _id: id }))
+        res.send(final_project)
     } catch (err) {
         res.status(400).send(err)
     }
 }
 
 async function get_final_project_by_course(req, res, id_course) {
+    const course = await Course.findOne({ _id: id_course })
+    if (!course) return res.status(404).send({"Pesan" : "Course dengan ID tersebut tidak ditemukan"})
+
     try {
         res.send(await FinalProject.findOne({ courseID: id_course }))
     } catch (err) {
@@ -80,8 +94,11 @@ async function get_final_project_by_course(req, res, id_course) {
 }
 
 async function get_final_project_answers(req, res, id_final_project) {
+    const final_project = await FinalProject.find({ _id: id_final_project })
+    if (!final_project) return res.status(404).send({"Pesan" : "Final project dengan ID tersebut tidak ditemukan"})
+
     try {
-        const final_project = await FinalProject.find({ _id: id_final_project })
+        
         res.send(final_project.answer)
     } catch (err) {
         res.status(400).send(err)
@@ -89,8 +106,11 @@ async function get_final_project_answers(req, res, id_final_project) {
 }
 
 async function get_a_final_project_answer(req, res, id_final_project, id_user){
+    const final_project = await FinalProject.findOne({ _id: id_final_project, "answer.id_user": id_user })
+    if (!final_project) return res.status(404).send({"Pesan" : "Data tidak ditemukan"})
+
     try {
-        const final_project = await FinalProject.findOne({ _id: id_final_project, "answer.id_user": id_user })
+        
         res.send(final_project.answer)
     } catch (err) {
         res.status(400).send(err)
@@ -98,8 +118,12 @@ async function get_a_final_project_answer(req, res, id_final_project, id_user){
 }
 
 async function get_a_final_project_score(req, res, id_final_project, id_user){
+
+    const final_project = await FinalProject.findOne({ _id: id_final_project, "answer.id_user": id_user })
+    if (!final_project) return res.status(404).send({"Pesan" : "Data tidak ditemukan"})
+
     try {
-        const final_project = await FinalProject.findOne({ _id: id_final_project, "answer.id_user": id_user })
+        
         res.send(final_project.answer[0].score.toString())
     } catch (err) {
         res.status(400).send(err)
