@@ -3,8 +3,10 @@ const app = express();
 const userRoutes = require('./routes/userRoutes');
 const courseRoutes = require('./routes/courseRoutes')
 const finalProjectRoutes = require('./routes/finalProjectRoutes')
+const cors = require('cors')
 
 //Middleware
+app.use(cors());
 app.use(express.json());
 
 //Route Middlewares
